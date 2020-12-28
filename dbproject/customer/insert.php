@@ -1,5 +1,6 @@
 <?php
-$connect = mysqli_connect("localhost", "root", "esti20000425", "dbproject");
+//$connect = mysqli_connect("localhost", "root", "esti20000425", "dbproject");
+require_once "../config.php";
 if(isset($_POST["ID"], $_POST["Name"], $_POST["RentDays"], $_POST["RentMotorID"], $_POST["Phone"], $_POST["Description"]))
 {
  $ID = mysqli_real_escape_string($connect, $_POST["ID"]);

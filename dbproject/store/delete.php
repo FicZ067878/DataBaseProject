@@ -1,5 +1,6 @@
 <?php
-$connect = mysqli_connect("localhost", "root", "esti20000425", "dbproject");
+//$connect = mysqli_connect("localhost", "root", "000000", "dbproject");
+require_once "../config.php";
 if(isset($_POST["id"]))
 {
  $query = "DELETE FROM store WHERE id = '".$_POST["id"]."'";
