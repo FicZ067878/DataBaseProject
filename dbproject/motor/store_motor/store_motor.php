@@ -1,15 +1,13 @@
-<?php
-print_r($_POST);
-?>
 <html>
 
 <head>
-    <title>Store</title>
+    <title>Motorcycle</title>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
     <style>
         body {
@@ -32,14 +30,8 @@ print_r($_POST);
 
 <body>
     <div class="container box">
-        <h1 align="center">Edit store information</h1>
+        <h1 align="center">Edit motorcycle information of store</h1>
         <br />
-        <form id="theForm" method="post" action=<?php if ($_POST["userID"] == 1) echo "../motor/store_motor/store_motor.php";
-                                                else echo "../motor/store_motor/avail_motor/avail_motor.php"; ?>>
-            <!--仍顯示delete，要去掉-->
-            <input type="hidden" name="storeID" id="storeID">
-            <input type="hidden" name="userID" id="userID">
-        </form>
         <div class="table-responsive">
             <br />
             <div align="right">
@@ -52,9 +44,11 @@ print_r($_POST);
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>name</th>
-                        <th>address</th>
-                        <th>phone</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Displacement</th>
+                        <th>StoreID</th>
+                        <th>Description</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -66,144 +60,115 @@ print_r($_POST);
 </html>
 
 <script type="text/javascript" language="javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
 
-        fetch_data();
 
-        function fetch_data() {
+        fetch_store_motor();
+
+        function fetch_store_motor()
+        {
+            var storeID = <?php echo $_POST['storeID']; ?>;
+            console.log(storeID);
+            
             var dataTable = $('#user_data').DataTable({
                 "processing": true,
                 "serverSide": true,
                 "order": [],
                 "ajax": {
-                    url: "fetch.php",
-                    type: "POST"
+                    url: "fetch_motor.php",
+                    type: "POST",
+                    data: { storeID: storeID }
                 }
             });
+            
+            
         }
 
+    
         function update_data(id, column_name, value) {
             $.ajax({
-                url: "update.php",
+                url: "../update.php",
                 method: "POST",
-                data: {
-                    id: id,
-                    column_name: column_name,
-                    value: value
-                },
-                success: function(data) {
+                data: { id: id, column_name: column_name, value: value },
+                success: function (data) {
                     $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
                     $('#user_data').DataTable().destroy();
-                    fetch_data();
+                    fetch_store_motor();
                 }
             });
-            setInterval(function() {
+            setInterval(function () {
                 $('#alert_message').html('');
             }, 5000);
         }
 
-        $(document).on('blur', '.update', function() {
+        $(document).on('blur', '.update', function () {
             var id = $(this).data("id");
             var column_name = $(this).data("column");
             var value = $(this).text();
             update_data(id, column_name, value);
         });
 
-        $('#add').click(function() {
+        $('#add').click(function () {
             var html = '<tr>';
             html += '<td contenteditable id="data1"></td>';
             html += '<td contenteditable id="data2"></td>';
             html += '<td contenteditable id="data3"></td>';
             html += '<td contenteditable id="data4"></td>';
+            html += '<td contenteditable id="data5"></td>';
+            html += '<td contenteditable id="data6"></td>';
             html += '<td><button type="button" name="insert" id="insert" class="btn btn-success btn-xs">Insert</button></td>';
             html += '</tr>';
             $('#user_data tbody').prepend(html);
         });
 
-        $(document).on('click', '#insert', function() {
+        $(document).on('click', '#insert', function () {
             var ID = $('#data1').text();
             var name = $('#data2').text();
-            var address = $('#data3').text();
-            var phone = $('#data4').text();
-            if (ID != '' && name != '' && address != '' && phone != '') {
+            var price = $('#data3').text();
+            var disp = $('#data4').text();
+            var SID = $('#data5').text();
+            var des = $('#data6').text();
+            if (ID != '' && name != '' && price != '' && disp != '' && SID != '') {
                 $.ajax({
-                    url: "insert.php",
+                    url: "../insert.php",
                     method: "POST",
-                    data: {
-                        ID: ID,
-                        name: name,
-                        address: address,
-                        phone: phone
-                    },
-                    success: function(data) {
-                        console.log(data);
+                    data: { ID: ID, Name: name, Price: price, Displacement: disp, StoreID: SID, Description: des},
+                    success: function (data) {
                         $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
                         $('#user_data').DataTable().destroy();
-                        fetch_data();
+                        fetch_store_motor();
                     }
                 });
-                setInterval(function() {
+                setInterval(function () {
                     $('#alert_message').html('');
                 }, 5000);
-            } else {
+            }
+            else {
                 alert("All Fields is required");
             }
         });
 
-        $(document).on('click', '.delete', function() {
+        $(document).on('click', '.delete', function () {
             var id = $(this).attr("id");
             if (confirm("Are you sure you want to remove this?")) {
                 $.ajax({
-                    url: "delete.php",
+                    url: "../delete.php",
                     method: "POST",
-                    data: {
-                        id: id
-                    },
-                    success: function(data) {
+                    data: { id: id },
+                    success: function (data) {
                         $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
                         $('#user_data').DataTable().destroy();
-                        fetch_data();
+                        fetch_store_motor();
                     }
                 });
-                setInterval(function() {
+                setInterval(function () {
                     $('#alert_message').html('');
                 }, 5000);
             }
         });
 
-        $(document).on('click', '.select', function() {
-
-            /*
-            if ($_POST["UserID"] == 1) {
-                ("#theForm").attr("action", "../motor/store_motor/store_motor.php"); 
-            } 
-            else {
-                ("#theForm").attr("action", "../motor/store_motor/avail_motor/avail_motor.php"); 
-            }
-            */
-
-            var storeID = $(this).attr("id");
-            console.log(storeID);
-
-            var userID = <?php echo $_POST["userID"];?>;
-            console.log(userID);
-
-            var contentSID = document.getElementById('storeID');
-            var contentUID = document.getElementById('userID');
-            var form = document.getElementById('theForm');
-
-
-            contentSID.value = storeID; // based on your example, obviously you need a value based on the click
-            contentUID.value = userID;
-
-            console.log(storeID);
-
-            form.submit();
-        });
-
-        $('#back').click(function() {
+        $('#back').click(function () {
             window.history.back();
-        });
-
+            });
     });
 </script>

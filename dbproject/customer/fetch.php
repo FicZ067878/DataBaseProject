@@ -1,8 +1,8 @@
 <?php
 //fetch.php
-//$connect = mysqli_connect("localhost", "root", "esti20000425", "dbproject");
 require_once "../config.php";
-$columns = array('ID', 'Name', 'RentDays', 'RentMotorID', 'Phone', 'Description','RentMoney');
+
+$columns = array('ID', 'Name', 'RentDays', 'RentMotorID', 'Phone', 'Description');
 
 $query = "SELECT * FROM customer ";
 
@@ -49,7 +49,6 @@ while($row = mysqli_fetch_array($result))
  $sub_array[] = '<div contenteditable class="update" data-id="'.$row["ID"].'" data-column="RentMotorID">' . $row["RentMotorID"] . '</div>';
  $sub_array[] = '<div contenteditable class="update" data-id="'.$row["ID"].'" data-column="Phone">' . $row["Phone"] . '</div>';
  $sub_array[] = '<div contenteditable class="update" data-id="'.$row["ID"].'" data-column="Description">' . $row["Description"] . '</div>';
- $sub_array[] = '<div contenteditable class="update" data-id="'.$row["ID"].'" data-column="RentMoney">' . $row["RentMoney"] . '</div>';
  $sub_array[] = '<button type="button" name="delete" class="btn btn-danger btn-xs delete" ID="'.$row["ID"].'">Delete</button>';
  $data[] = $sub_array;
 }

@@ -1,6 +1,5 @@
 <?php
 //fetch.php
-//$connect = mysqli_connect("localhost", "root", "000000", "dbproject");
 require_once "../config.php";
 $columns = array('ID', 'Name', 'Address', 'Phone');
 

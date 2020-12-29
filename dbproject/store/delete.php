@@ -1,5 +1,4 @@
 <?php
-//$connect = mysqli_connect("localhost", "root", "000000", "dbproject");
 require_once "../config.php";
 if(isset($_POST["id"]))
 {

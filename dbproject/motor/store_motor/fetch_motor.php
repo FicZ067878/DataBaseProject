@@ -1,16 +1,9 @@
 <?php
-//fetch.php
-$connect = mysqli_connect("localhost", "root", "esti20000425", "dbproject");
-$columns = array('ID', 'Name', 'Address', 'Phone');
+require_once "../../config.php";
 
-if(isset($_POST["id"]))
-{
- $query = "SELECT * motorcycle WHERE id = '".$_POST["id"]."'";
- if(mysqli_query($connect, $query))
- {
-  echo 'Data searched';
- }
-}
+$columns = array('ID', 'Name', 'Price', 'Displacement', 'StoreID', 'Description');
+
+$query = "SELECT * FROM motorcycle WHERE StoreID = '".$_POST["storeID"]."'";
 
 if(isset($_POST["order"]))
 {
@@ -50,7 +43,7 @@ while($row = mysqli_fetch_array($result))
 
 function get_all_data($connect)
 {
- $query = "SELECT * motorcycle WHERE id = '".$_POST["id"]."'";
+ $query = "SELECT * FROM motorcycle";
  $result = mysqli_query($connect, $query);
  return mysqli_num_rows($result);
 }
