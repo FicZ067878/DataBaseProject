@@ -1,6 +1,6 @@
 <?php
 //$connect = mysqli_connect("localhost", "root", "esti20000425", "dbproject");
-require_once "../config.php";
+require '../config.php';
 if(isset($_POST["ID"], $_POST["Name"], $_POST["RentDays"], $_POST["RentMotorID"], $_POST["Phone"], $_POST["Description"]))
 {
  $ID = mysqli_real_escape_string($connect, $_POST["ID"]);
@@ -9,8 +9,7 @@ if(isset($_POST["ID"], $_POST["Name"], $_POST["RentDays"], $_POST["RentMotorID"]
  $MID = mysqli_real_escape_string($connect, $_POST["RentMotorID"]);
  $phone = mysqli_real_escape_string($connect, $_POST["Phone"]);
  $des = mysqli_real_escape_string($connect, $_POST["Description"]);
- $rentmoney = mysqli_real_escape_string($connect,0);
- $query = "INSERT INTO customer(ID, Name, RentDays, RentMotorID, Phone, Description,RentMoney) VALUES('$ID', '$name', '$rentdays', '$MID', '$phone', '$des''$rentmoney')";
+ $query = "INSERT INTO customer(ID, Name, RentDays, RentMotorID, Phone, Description) VALUES('$ID', '$name', '$rentdays', '$MID', '$phone', '$des')";
  if(mysqli_query($connect, $query))
  {
   echo 'Data Inserted';
