@@ -9,7 +9,8 @@ if(isset($_POST["ID"], $_POST["Name"], $_POST["RentDays"], $_POST["RentMotorID"]
  $MID = mysqli_real_escape_string($connect, $_POST["RentMotorID"]);
  $phone = mysqli_real_escape_string($connect, $_POST["Phone"]);
  $des = mysqli_real_escape_string($connect, $_POST["Description"]);
- $query = "INSERT INTO customer(ID, Name, RentDays, RentMotorID, Phone, Description) VALUES('$ID', '$name', '$rentdays', '$MID', '$phone', '$des')";
+ $rentmoney = mysqli_real_escape_string($connect,0);
+ $query = "INSERT INTO customer(ID, Name, RentDays, RentMotorID, Phone, Description,RentMoney) VALUES('$ID', '$name', '$rentdays', '$MID', '$phone', '$des''$rentmoney')";
  if(mysqli_query($connect, $query))
  {
   echo 'Data Inserted';
